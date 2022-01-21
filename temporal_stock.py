@@ -123,14 +123,8 @@ if __name__ == "__main__":
         print("%.2f s"%(time.time() - step_start_t))
 
     print("Plotting")
-    max_degrees_set = set()
-    for degrees in degrees_list:
-        max_degrees_set.add(sorted(degrees, key=degrees.get, reverse=True)[0])
-
-    max_degrees_dict = {}
-    for v in max_degrees_set:
-        max_degrees_dict[v] = [degrees[v] for degrees in degrees_list]
-
+    max_degrees_set = {sorted(degrees, key=degrees.get, reverse=True)[0] for degrees in degrees_list}
+    max_degrees_dict = {v: [degrees[v] for degrees in degrees_list] for v in max_degrees_set}
     plot_stats_set(timestamps, max_degrees_dict, 'max_degrees.png')
 
     plot_stats(timestamps, paths_weighted, 'paths weighted', 'paths_weighted.png')
