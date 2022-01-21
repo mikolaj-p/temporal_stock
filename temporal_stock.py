@@ -29,6 +29,17 @@ def plot_stats_set(timestamps, stats_set, file_name):
     plt.savefig(file_name)
     plt.close()
 
+def plot_stats_bar(timestamps, stats, file_name):
+    stats = list(map(list, itertools.zip_longest(*stats, fillvalue=0)))
+    plt.figure(figsize=(8,6))
+    width = 30
+    n_rows = len(stats)
+    colormap = plt.cm.viridis(np.linspace(1, 0, n_rows))
+    for row in range(n_rows):
+        plt.bar(timestamps, stats[row], width, color=colormap[row])
+    plt.savefig(file_name)
+    plt.close()
+
 def calc_heterogeneity(G):
     N = G.number_of_nodes()
     return (N - 2*(sum([1/math.sqrt(G.degree[e[0]]*G.degree[e[1]]) for e in G.edges])))/(N - 2*math.sqrt(N-1))
@@ -126,6 +137,9 @@ if __name__ == "__main__":
     max_degrees_set = {sorted(degrees, key=degrees.get, reverse=True)[0] for degrees in degrees_list}
     max_degrees_dict = {v: [degrees[v] for degrees in degrees_list] for v in max_degrees_set}
     plot_stats_set(timestamps, max_degrees_dict, 'max_degrees.png')
+
+    degrees_distr = [sorted({d for d in degrees.values()}, reverse=True) for degrees in degrees_list]
+    plot_stats_bar(timestamps, degrees_distr, 'degrees_distr.png')
 
     plot_stats(timestamps, paths_weighted, 'paths weighted', 'paths_weighted.png')
     plot_stats(timestamps, paths_unweighted, 'paths unweighted', 'paths_unweighted.png')
