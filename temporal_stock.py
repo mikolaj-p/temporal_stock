@@ -59,8 +59,8 @@ if __name__ == "__main__":
     parser.add_argument('--shift', type=int, default=25, help='Shift size')
     parser.add_argument('--instr-max', type=int, default=470, help='Maximum number of instruments used in graph construction')
     parser.add_argument('--data-dir', type=str, default='stocks', help='Directory containing the data')
-    parser.add_argument('--min', type=bool, default=False, help='Use minimal spanning tree (default: use maximal spanning tree)')
-    parser.add_argument('--plot-graphs', type=bool, default=False, help='Plot all graphs in temporal network')
+    parser.add_argument('--min', action='store_true', help='Use minimal spanning tree (default: use maximal spanning tree)')
+    parser.add_argument('--plot-graphs', action='store_true', help='Plot all graphs in temporal network')
     args = parser.parse_args()
 
     print("Loading data", end=' ')
